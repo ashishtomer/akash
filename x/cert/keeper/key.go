@@ -2,10 +2,16 @@ package keeper
 
 import (
 	"bytes"
+	"fmt"
+	"math/big"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	"github.com/ovrclk/akash/x/cert/types"
+)
+
+const (
+	keyAddrPrefixLen = 1 + sdk.AddrLen
 )
 
 var (
@@ -32,4 +38,12 @@ func certificatePrefix(id sdk.Address) []byte {
 	}
 
 	return buf.Bytes()
+}
+
+func certificateSerialFromKey(key []byte) big.Int {
+	if len(key) < keyAddrPrefixLen+1 {
+		panic(fmt.Sprintf("invalid key size"))
+	}
+
+	return *new(big.Int).SetBytes(key[keyAddrPrefixLen:])
 }

@@ -42,6 +42,16 @@ func cmdCreate(key string) *cobra.Command {
 				return err
 			}
 
+			// first lets validate certificate exists for given account
+			// if _, err = cutils.LoadCertificateForAccount(clientCtx, clientCtx.Keyring); err != nil {
+			// 	if os.IsNotExist(err) {
+			// 		err = errors.Errorf("no certificate file found for account %q.\n"+
+			// 			"consider creating it as certificate required to submit manifest", clientCtx.FromAddress.String())
+			// 	}
+			//
+			// 	return err
+			// }
+
 			sdlManifest, err := sdl.ReadFile(args[0])
 			if err != nil {
 				return err
