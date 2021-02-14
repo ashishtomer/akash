@@ -6,8 +6,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ovrclk/akash/validation/constants"
 	"github.com/pkg/errors"
-
-	"github.com/ovrclk/akash/types/unit"
 )
 
 func validateGroupPricing(gspec GroupSpec) error {
@@ -41,12 +39,6 @@ func validateGroupPricing(gspec GroupSpec) error {
 		}
 
 		mem = mem.Add(memCount.Mul(sdk.NewIntFromUint64(uint64(resource.Count))))
-	}
-
-	minprice := mem.Mul(sdk.NewInt(validationConfig.MinGroupMemPrice)).Quo(sdk.NewInt(unit.Gi))
-
-	if price.Amount.LT(minprice) {
-		return errors.Errorf("group %v: price too low (%v >= %v fails)", gspec.GetName(), price, minprice)
 	}
 
 	return nil
